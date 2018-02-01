@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report №{{reportNumber}}</title>
+</head>
+<body>
+<h1>Report №{{reportNumber}}</h1>
+
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Form</th>
+    </tr>
+    {{#usersAndForms}}
+    <tr>
+        <td>{{ssoid}}</td>
+        <td>{{formId}}</td>
+    </tr>
+    {{/usersAndForms}}
+</table>
+
+
+</body>
+</html>
