@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import ru.shaldnikita.forms.backend.entity.Data;
+import ru.shaldnikita.forms.backend.models.entity.Data;
 import ru.shaldnikita.forms.backend.repository.DataRepository;
 import ru.shaldnikita.forms.csv.CsvFileHandler;
 import ru.shaldnikita.forms.web.controller.ReportController;

@@ -4,7 +4,7 @@ package ru.shaldnikita.forms.csv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shaldnikita.forms.app.HasLogger;
-import ru.shaldnikita.forms.backend.entity.Data;
+import ru.shaldnikita.forms.backend.models.entity.Data;
 import ru.shaldnikita.forms.backend.repository.DataRepository;
 import ru.shaldnikita.forms.csv.parser.CsvParser;
 

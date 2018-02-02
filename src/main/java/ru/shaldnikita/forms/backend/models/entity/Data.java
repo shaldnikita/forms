@@ -1,9 +1,8 @@
-package ru.shaldnikita.forms.backend.entity;
+package ru.shaldnikita.forms.backend.models.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 public class Data {

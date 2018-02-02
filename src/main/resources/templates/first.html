@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Report №{{reportNumber}}</title>
+    <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 <h1>Report №{{reportNumber}}</h1>
@@ -13,12 +14,29 @@
         <th>User</th>
         <th>Form</th>
     </tr>
-    {{#usersAndForms}}
+
+    {{#usersAndTheirForms}}
     <tr>
-        <td>{{ssoid}}</td>
-        <td>{{formId}}</td>
+        <td>
+            <ol>
+                <li>
+                    {{userId}}
+                </li>
+            </ol>
+        </td>
+        <td>
+            {{#forms}}
+            <ol>
+                <li>
+                    {{.}}
+                </li>
+            </ol>
+            {{/forms}}
+        </td>
     </tr>
-    {{/usersAndForms}}
+    {{/usersAndTheirForms}}
+
+
 </table>
 
 
