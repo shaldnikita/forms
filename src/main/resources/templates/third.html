@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Report №{{reportNumber}}</title>
-    <link href="/resources/css/main.css" />" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
 <h1>Report №{{reportNumber}}</h1>
 
-<ol>
-    {{#topForms}}
-        <li>id:{{.}} </li>
-    {{/topForms}}
-</ol>
+<table>
+    <tr>
+        <th>Form</th>
+    </tr>
+    <tr>
+        <td>
+            <ol>
+                {{#topForms}}
+                <li>
+                    {{.}}
+                </li>
+                {{/topForms}}
+            </ol>
+        </td>
+    </tr>
+</table>
+
 
 </body>
 </html>

@@ -16,7 +16,6 @@ public class CsvFileHandler implements HasLogger {
 
     private final String fileName = "test_case.csv";
 
-
     @Autowired
     private CsvParser parser;
 

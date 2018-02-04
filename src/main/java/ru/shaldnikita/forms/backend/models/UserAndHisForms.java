@@ -1,4 +1,4 @@
-package ru.shaldnikita.forms.backend.models.entity;
+package ru.shaldnikita.forms.backend.models;
 
 import java.util.ArrayList;
 import java.util.List;

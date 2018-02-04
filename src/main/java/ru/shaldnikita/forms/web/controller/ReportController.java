@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.shaldnikita.forms.app.HasLogger;
-import ru.shaldnikita.forms.backend.models.entity.UserAndHisForms;
+import ru.shaldnikita.forms.backend.models.UserAndHisForms;
+import ru.shaldnikita.forms.backend.models.entity.UserAndHisState;
 import ru.shaldnikita.forms.backend.repository.DataRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,27 +23,59 @@ public class ReportController implements HasLogger {
     DataRepository dataRepository;
 
     @GetMapping("first")
-    public ModelAndView firstReport(HttpServletRequest request) {
+    public ModelAndView firstReport() {
         Map<String, Object> model = new HashMap<>();
-        model.put("resources", request.getContextPath() + "/resources");
         model.put("reportNumber", 1);
 
         Collection<UserAndHisForms> usersAndTheirForms = attachFormsToUsers(dataRepository.getUsersAndForms());
-
         model.put("usersAndTheirForms", usersAndTheirForms);
-        model.put("resources", request.getContextPath() + "/resources");
+
         return new ModelAndView("first", model);
     }
 
     @GetMapping("second")
-    public ModelAndView secondReport(HttpServletRequest request) {
+    public ModelAndView secondReport() {
         Map<String, Object> model = new HashMap<>();
+
         model.put("reportNumber", 2);
+        model.put("usersAndState", attachStateToUser(dataRepository.getUsersWithUnfinishedForms()));
 
-
-        model.put("usersAndState", dataRepository.findAll());
-
+        getLogger().info("{}",model.get("usersAndState"));
         return new ModelAndView("second", model);
+    }
+
+    private Object attachStateToUser(List<Object[]> usersWithUnfinishedForms) {
+
+        ConcurrentHashMap<String, UserAndHisState> result = new ConcurrentHashMap<>();
+
+        usersWithUnfinishedForms
+                .parallelStream()
+                .forEach(userAndForm -> {
+                    getLogger().info(Arrays.toString(userAndForm));
+                    String user = (String) userAndForm[0];
+                    String state = (String) userAndForm[1];
+
+                    if (result.contains(user)) {
+                        result.get(user).setState(state);
+                    } else {
+                        UserAndHisState newUser = new UserAndHisState();
+                        newUser.setUserId(user);
+                        newUser.setState(state);
+                        result.put(user, newUser);
+                    }
+                });
+
+        return result.values();
+    }
+
+
+    @GetMapping("third")
+    public ModelAndView thirdReport() {
+        Map<String, Object> model = new HashMap<>();
+        model.put("reportNumber", 3);
+        model.put("topForms", dataRepository.getTopFiveForms());
+
+        return new ModelAndView("third", model);
     }
 
     private Collection<UserAndHisForms> attachFormsToUsers(List<Object[]> usersAndForms) {
@@ -55,8 +88,8 @@ public class ReportController implements HasLogger {
                 .parallelStream()
                 .forEach(userAndForm -> {
                     getLogger().info(Arrays.toString(userAndForm));
-                    String user = (String)userAndForm[0];
-                    String form = (String)userAndForm[1];
+                    String user = (String) userAndForm[0];
+                    String form = (String) userAndForm[1];
 
                     if (result.contains(user)) {
                         result.get(user).getForms().add(form);
@@ -69,14 +102,5 @@ public class ReportController implements HasLogger {
                 });
 
         return result.values();
-    }
-
-    @GetMapping("third")
-    public ModelAndView thirdReport() {
-        Map<String, Object> model = new HashMap<>();
-        model.put("reportNumber", 3);
-        model.put("topForms", dataRepository.getTopFiveForms());
-
-        return new ModelAndView("third", model);
     }
 }
